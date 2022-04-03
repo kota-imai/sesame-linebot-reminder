@@ -11,7 +11,7 @@ const userId = process.env.LINE_USER_ID;
 exports.notify = async () => { 
   const message = {
     type: "flex",
-    altText: "カギあかっぱなし！",
+    altText: "カギが開いています",
     contents: flexContnets
   };
   await client.pushMessage(userId, message)
