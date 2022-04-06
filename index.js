@@ -19,14 +19,14 @@ app.get('/', (req, res) => {
 
 // 家のSESAMEの開閉状態を取得する
 app.get('/status', async (req, res) => {
-  const { data } = await sesame.retreive_status();
+  const { data } = await sesame.get_status();
   res.status(200);
   res.send(data);
 });
 
 // カギが開いてればLINE通知する
 app.get('/remindme', async (req, res) => {
-  const { data } = await sesame.retreive_status();
+  const { data } = await sesame.get_status();
   if (data.CHSesame2Status == 'unlocked') {
     const result = await line.notify();
     return res.send({
