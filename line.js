@@ -1,3 +1,6 @@
+// require("dotenv").config();
+
+const crypto = require("crypto");
 const line = require('@line/bot-sdk');
 
 const config = {
@@ -6,6 +9,14 @@ const config = {
 };
 const client = new line.Client(config);
 const userId = process.env.LINE_USER_ID;
+
+// Webhookの署名検証
+exports.validateSignature = (signature, body) => {
+  return signature == crypto
+    .createHmac('sha256', config.channelAccessToken)
+    .update(Buffer.from(JSON.stringify(body)))
+    .digest('base64');
+}
 
 // プッシュ通知を送る
 exports.notify = async () => { 

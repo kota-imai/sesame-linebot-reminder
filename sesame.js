@@ -1,3 +1,5 @@
+// require("dotenv").config();
+
 const axios = require('axios');
 const aesCmac = require('node-aes-cmac').aesCmac;
 

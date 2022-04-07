@@ -11,7 +11,6 @@ app.use(express.urlencoded({
 }))
 
 app.get('/', (req, res) => {
-  res.status(200);
   res.send({
     message: "Application running..."
   });
@@ -20,7 +19,6 @@ app.get('/', (req, res) => {
 // 家のSESAMEの開閉状態を取得する
 app.get('/status', async (req, res) => {
   const { data } = await sesame.get_status();
-  res.status(200);
   res.send(data);
 });
 
@@ -40,6 +38,12 @@ app.get('/remindme', async (req, res) => {
 
 // Webhook
 app.post('/webhook', async (req, res) => {
+  // Signature検証
+  if (line.validateSignature(req.headers['x-line-signature'], req.body)) { 
+    res.status(401).send({
+      message: "Invalid signature received"
+    })
+  }
   // postbackイベントを処理する
   if (req.body.events.length > 0 && req.body.events[0].type == "postback") {
     const result = await sesame.lock_cmd();
