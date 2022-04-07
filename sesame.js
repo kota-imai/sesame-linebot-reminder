@@ -20,7 +20,6 @@ exports.lock_cmd = async () => {
   const cmd = 82;
   const history = "Locked via LINE bot";
   const base64_history = Buffer.from(history).toString('base64');
-
   const sign = generateRandomTag(key_secret_hex)
   const result = await axios({
     method: 'post',
@@ -39,7 +38,6 @@ exports.unlock_cmd = async () => {
   const cmd = 83;
   const history = "Unlocked via LINE bot";
   const base64_history = Buffer.from(history).toString('base64');
-
   const sign = generateRandomTag(key_secret_hex);
   const result = await axios({
     method: 'post',

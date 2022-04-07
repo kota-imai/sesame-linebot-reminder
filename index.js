@@ -39,8 +39,8 @@ app.get('/remindme', async (req, res) => {
 // Webhook
 app.post('/webhook', async (req, res) => {
   // Signature検証
-  if (line.validateSignature(req.headers['x-line-signature'], req.body)) { 
-    res.status(401).send({
+  if (!req.body, line.validateSignature(req.headers['x-line-signature'])) { 
+    return res.status(401).send({
       message: "Invalid signature received"
     })
   }
@@ -51,4 +51,6 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 })
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}!`));
+app.listen(PORT, () => { 
+  console.log(`Listening on ${PORT}!`)
+});
