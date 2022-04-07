@@ -1,6 +1,6 @@
-// require("dotenv").config();
+require("dotenv").config();
 
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const line = require('@line/bot-sdk');
 
 const config = {
@@ -11,11 +11,8 @@ const client = new line.Client(config);
 const userId = process.env.LINE_USER_ID;
 
 // Webhookの署名検証
-exports.validateSignature = (signature, body) => {
-  return signature == crypto
-    .createHmac('sha256', config.channelAccessToken)
-    .update(Buffer.from(JSON.stringify(body)))
-    .digest('base64');
+exports.validateSignature = (body, signature) => {
+  return line.validateSignature(Buffer.from(JSON.stringify(body)), config.channelSecret, signature);
 }
 
 // プッシュ通知を送る
@@ -23,7 +20,7 @@ exports.notify = async () => {
   const message = {
     type: "flex",
     altText: "カギが開いています",
-    contents: flexContnets
+    contents: flexContents
   };
   await client.pushMessage(userId, message)
     .catch((err) => {
@@ -32,7 +29,7 @@ exports.notify = async () => {
 }
 
 // フレックスメッセージ
-const flexContnets = {
+const flexContents = {
   type: "bubble",
   body: {
     type: "box",
