@@ -1,6 +1,6 @@
-// require("dotenv").config();
+require("dotenv").config();
 
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const line = require('@line/bot-sdk');
 
 const config = {

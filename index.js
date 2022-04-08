@@ -51,6 +51,6 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 })
 
-app.listen(PORT, () => { 
-  console.log(`Listening on ${PORT}!`)
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}!`);
 });
