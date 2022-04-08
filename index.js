@@ -39,7 +39,7 @@ app.get('/remindme', async (req, res) => {
 // Webhook
 app.post('/webhook', async (req, res) => {
   // Signature検証
-  if (!req.body, line.validateSignature(req.headers['x-line-signature'])) { 
+  if (!line.validateSignature(req.body, req.headers['x-line-signature'])) { 
     return res.status(401).send({
       message: "Invalid signature received"
     })
