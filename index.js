@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 }))
 
 app.get('/', (req, res) => {
-  res.send({
+  res.json({
     message: "Application running..."
   });
 });
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 // 家のSESAMEの開閉状態を取得する
 app.get('/status', async (req, res) => {
   const { data } = await sesame.get_status();
-  res.send(data);
+  res.json(data);
 });
 
 // カギが開いてればLINE通知する
@@ -27,11 +27,11 @@ app.get('/remindme', async (req, res) => {
   const { data } = await sesame.get_status();
   if (data.CHSesame2Status == 'unlocked') {
     const result = await line.notify();
-    return res.send({
+    return res.json({
       message: "Notification sended!"
     })
   };
-  res.send({
+  res.json({
     message: "The key is locked"
   })
 });
@@ -40,7 +40,7 @@ app.get('/remindme', async (req, res) => {
 app.post('/webhook', async (req, res) => {
   // Signature検証
   if (!line.validateSignature(req.body, req.headers['x-line-signature'])) { 
-    return res.status(401).send({
+    return res.status(401).json({
       message: "Invalid signature received"
     })
   }
